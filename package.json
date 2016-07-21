@@ -1,0 +1,30 @@
+{
+  "name": "fractule",
+  "version": "0.0.0",
+  "description": "Fractal mathematics and visualization API",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slurmulon/fractule.git"
+  },
+  "keywords": [
+    "fractal",
+    "math",
+    "mandelbrot",
+    "visual"
+  ],
+  "author": "Erik Vavro <me@madhax.io>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/slurmulon/fractule/issues"
+  },
+  "homepage": "https://github.com/slurmulon/fractule#readme",
+  "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.11.4",
+    "babel-preset-es2015": "^6.9.0"
+  }
+}

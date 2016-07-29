@@ -1,22 +1,28 @@
 export default class FractalControls {
 
-  constructor(elem) {
+  constructor (elem) {
     this.elem = elem
   }
 
-  keyUp() {
+  bind() {
+    this.elem.addEventListener('mouseup',   this.mouseUp, true)
+    this.elem.addEventListener('mousedown', this.mouseUp, true)
+    // TODO: keyUp, keyDown
+  }
+
+  keyUp (event) {
     return true
   }
 
-  keyDown() {
+  keyDown (event) {
     return true
   }
 
-  mouseUp() {
+  mouseUp (event) {
     return true
   }
 
-  mouseDown() {
+  mouseDown (event) {
     return true
   }
 

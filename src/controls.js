@@ -19,7 +19,17 @@ export default class FractalControls {
   }
 
   keyUp (event) {
-    return this.which(event)
+    const key = this.which(event)
+
+    switch (key) {
+      case 'space':
+        this.fractal.iterate()
+        break
+      default:
+        break
+    }
+
+    return key
   }
 
   keyDown (event) {

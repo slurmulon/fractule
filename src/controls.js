@@ -1,21 +1,29 @@
+import keycode from 'keycode'
+
 export default class FractalControls {
 
-  constructor (elem) {
-    this.elem = elem
+  constructor (elem, fractal) {
+    this.elem    = elem
+    this.fractal = fractal
   }
 
   bind() {
     this.elem.addEventListener('mouseup',   this.mouseUp, true)
     this.elem.addEventListener('mousedown', this.mouseUp, true)
-    // TODO: keyUp, keyDown
+    this.elem.addEventListener('keyUp',     this.keyUp,   true)
+    this.elem.addEventListener('keyDown',   this.keyDown, true)
+  }
+
+  which(event) {
+    return keycode(event)
   }
 
   keyUp (event) {
-    return true
+    return this.which(event)
   }
 
   keyDown (event) {
-    return true
+    return this.which(event)
   }
 
   mouseUp (event) {

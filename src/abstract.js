@@ -28,16 +28,17 @@ export default class AbstractFractal {
     this.canvas  = document.getElementById('canvas')
     this.context = this.canvas.getContext('2d')
 
-    this.size = { height, width }
+    this.size  = { height, width }
+    this.pipes = [ ] // TODO: allow arbitary piping / mapping on fractal units (drawUnit)
   }
 
   get data () {
-    return this.$datums
+    return this.datums
   }
 
   set data (data) {
     if (data instanceof Array) {
-      this.$datums = data
+      this.datums = data
     }
   }
 
@@ -80,20 +81,18 @@ export default class AbstractFractal {
   }
 
   drawUnit (depth = 0, size = 1, angle = 0) {
-    const params = arguments
-
-    [
-      this.setupUnit,
+    [ this.setupUnit,
       this.positionUnit,
       this.renderUnit,
       this.exitUnit
-    ].forEach(step => step.apply(this, params))
+    ].forEach(step => step(depth, size, angle))
   }
 
   setupUnit (depth = 0, size = 1, angle = 0) {
     chaos.context.save()
   }
 
+  // TODO: integrate epsilon
   positionUnit (depth = 0, size = 1, angle = 0) {
     chaos.context.rotate(angle)
     chaos.context.beginPath()

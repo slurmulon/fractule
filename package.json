@@ -4,7 +4,8 @@
   "description": "Fractal mathematics and visualization API",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha test",
+    "build": "babel src --out-dir lib"
   },
   "repository": {
     "type": "git",

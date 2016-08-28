@@ -1,4 +1,4 @@
-import AbstractFractal from './abstract'
+import AbstractFractal from '../abstract'
 
 export default class TreeFractal extends AbstractFractal {
 

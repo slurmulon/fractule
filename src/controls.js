@@ -7,14 +7,14 @@ export default class FractalControls {
     this.fractal = fractal
   }
 
-  bind() {
+  bind () {
     this.elem.addEventListener('mouseup',   this.mouseUp, true)
     this.elem.addEventListener('mousedown', this.mouseUp, true)
     this.elem.addEventListener('keyUp',     this.keyUp,   true)
     this.elem.addEventListener('keyDown',   this.keyDown, true)
   }
 
-  which(event) {
+  which (event) {
     return keycode(event)
   }
 

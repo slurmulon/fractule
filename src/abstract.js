@@ -89,23 +89,26 @@ export default class AbstractFractal {
   }
 
   setupUnit (depth = 0, size = 1, angle = 0) {
-    chaos.context.save()
+    this.context.save()
   }
 
-  // TODO: integrate epsilon
+  scaleUnit (depth, size, angle) {
+    return -size
+  }
+
   positionUnit (depth = 0, size = 1, angle = 0) {
-    chaos.context.rotate(angle)
-    chaos.context.beginPath()
-    chaos.context.moveTo(0, 0)
-    chaos.context.lineTo(0, -size)
+    this.context.rotate(angle)
+    this.context.beginPath()
+    this.context.moveTo(0, 0)
+    this.context.lineTo(0, this.scaleUnit(step, size, angle))
   }
 
   renderUnit (depth = 0, size = 1, angle = 0) {
-    chaos.context.stroke()
+    this.context.stroke()
   }
 
   exitUnit (depth = 0, size = 1, angle = 0) {
-    chaos.context.restore()
+    this.context.restore()
   }
 
   distance (p0, p1) { // TODO: integrate

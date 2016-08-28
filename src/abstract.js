@@ -1,4 +1,3 @@
-import Promise from 'bluebird'
 import { eucledian } from './distance'
 
 export default class AbstractFractal {

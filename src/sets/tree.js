@@ -37,36 +37,23 @@ export class TreeFractal extends AbstractFractal {
     this.context.translate(0, this.scaleUnit(depth, size))
 
     if (depth === 0) {
-      console.log('--- depth is 0')
       // done. draw branches.
       this.drawBranch(depth, size * this.epsilon, this.angles[0])
       this.drawBranch(depth, size * this.epsilon, this.angles[1])
     } else {
-      console.log('--- depth > 0', depth)
       // more. draw two mini trees instead of branches.
-      this.drawUnit(depth - 1, size * this.epsilon, this.angles[0]) // FIXME: context is messed up, something along the way
+      this.drawUnit(depth - 1, size * this.epsilon, this.angles[0])
       this.drawUnit(depth - 1, size * this.epsilon, this.angles[1])
     }
   }
 
   drawBranch (depth, size, angle) {
-    // this.setupUnit()
-    // this.directUnit()
-    // this.context.moveTo(0, 0)
-    // this.context.lineTo(0, -size)
-    // this.context.stroke()
-    // this.exitUnit()
- 
-    console.log('drawing branch (size, angle): ', size, angle)
-    this.context.save();
-    this.context.rotate(angle);
-    this.context.beginPath();
-    console.log('branch position lineto', -size)
-    this.context.moveTo(0, 0);
-    this.context.lineTo(0, -size);
-    this.context.stroke();
-    this.context.restore();
-    console.log('done with branch')
+    this.setupUnit()
+    this.directUnit(depth, size, angle)
+    this.context.moveTo(0, 0)
+    this.context.lineTo(0, -size)
+    this.context.stroke()
+    this.exitUnit()
   }
 
   draw () { // TODO: make this redundant

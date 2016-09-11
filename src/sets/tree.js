@@ -19,10 +19,10 @@ export class TreeFractal extends AbstractFractal {
     ]
   }
 
-  randomize() {
+  randomize (delta = 2) {
     this.angles = [
-      -Math.PI / 2 * Math.random(),
-       Math.PI / 2 * Math.random()
+      -Math.PI / delta * Math.random(),
+       Math.PI / delta * Math.random()
     ]
   }
 
@@ -59,7 +59,7 @@ export class TreeFractal extends AbstractFractal {
 
   draw () {
     this.clear()
-    this.context.translate(this.width * this.scale, this.height * this.scale) // TODO: place this in `centerDrawing` or the like
+    this.translate()
 
     const size = this.height * .9
 

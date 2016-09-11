@@ -74,8 +74,16 @@ export class AbstractFractal {
     return this.points.map(this.iteration.bind(this))
   }
 
+  translate (scale = this.scale) {
+    const x = this.width  * scale
+    const y = this.height * scale
+
+    this.context.translate(x, y)
+  }
+
   draw () {
     this.clear()
+    this.translate()
 
     return this.iterate()
   }
@@ -92,7 +100,7 @@ export class AbstractFractal {
     this.context.save()
   }
 
-  scaleUnit (depth, size, angle) {
+  scaleUnit (depth = 0, size = 1, angle = 0) {
     return -size
   }
 

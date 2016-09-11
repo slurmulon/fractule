@@ -50,15 +50,14 @@ export class AbstractFractal {
     this.width  = this.canvas.width  = width
   }
 
-  // TODO: use point
-  iteration (point, size = this.size, angle = 0, depth = this.depth) {
+  // TODO: provide mapper function so that users can dynamically 
+  // prepare data for the next iteration of drawUnit
+  iteration (point, size = this.size, angle = 0, depth = this.depth, recurse = false) {
     this.drawUnit(depth, size, angle)
 
-    // if (depth > 0) {
-    //   this.iteration(point, size, angle, depth - 1)
-    // }
-
-    // this.context.restore()
+    if (depth > 0 && recurse) {
+      this.iteration(point, size, angle, depth - 1, recurse)
+    }
   }
 
   // TODO: integrate setInterval and clearInterval, or use generators

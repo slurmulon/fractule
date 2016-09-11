@@ -54,12 +54,9 @@ export class TreeFractal extends AbstractFractal {
     this.exitUnit()
   }
 
-  draw () { // TODO: make this redundant
+  draw () {
     this.clear()
     this.translate(0.5, 0.9)
-
-    const size = this.height * .8
-
-    this.iteration(null, size)
+    this.iteration(null, this.height)
   }
 }

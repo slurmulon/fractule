@@ -52,11 +52,6 @@ export class AbstractFractal {
 
   // TODO: use point
   iteration (point, size = this.size, angle = 0, depth = this.depth) {
-    // this.context.save()
-    // this.context.translate(this.dist, 0)
-    // // this.context.translate(this.width / 2, this.height)
-    // this.context.scale(this.epsilon, this.epsilon)
-
     this.drawUnit(depth, size, angle)
 
     // if (depth > 0) {
@@ -95,7 +90,6 @@ export class AbstractFractal {
   }
 
   setupUnit (depth = 0, size = 1, angle = 0) {
-    console.log('\t1. setup')
     this.context.save()
   }
 
@@ -104,14 +98,11 @@ export class AbstractFractal {
   }
 
   directUnit (depth = 0, size = 1, angle = 0) {
-    console.log('\t2. direct')
-
     this.context.rotate(angle)
     this.context.beginPath()
   }
 
   moveUnit (depth = 0, size = 1, angle = 0) {
-console.log('\t3. move unit position lineto:', this.scaleUnit(depth, size, angle))
     this.context.moveTo(0, 0)
     this.context.lineTo(0, this.scaleUnit(depth, size, angle))
   }

@@ -12,7 +12,7 @@ export class TreeFractal extends AbstractFractal {
   }) {
     super(...arguments)
 
-    this.points = [{}]
+    this.points = [null]
     this.angles = [
       -Math.PI / 4,
       Math.PI / 4
@@ -37,11 +37,9 @@ export class TreeFractal extends AbstractFractal {
     this.context.translate(0, this.scaleUnit(depth, size))
 
     if (depth === 0) {
-      // done. draw branches.
       this.drawBranch(depth, size * this.epsilon, this.angles[0])
       this.drawBranch(depth, size * this.epsilon, this.angles[1])
     } else {
-      // more. draw two mini trees instead of branches.
       this.drawUnit(depth - 1, size * this.epsilon, this.angles[0])
       this.drawUnit(depth - 1, size * this.epsilon, this.angles[1])
     }

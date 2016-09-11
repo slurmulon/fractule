@@ -34,6 +34,8 @@ export class TreeFractal extends AbstractFractal {
     this.context.stroke()
     this.context.translate(0, this.scaleUnit(depth, size))
 
+    console.log('drawing tree (depth, size, angle, translation)', depth, size, angle, this.scaleUnit(depth, size))
+
     if (depth === 0) {
       // done. draw branches.
       this.drawBranch(depth, size * this.epsilon, this.angles[0])
@@ -48,6 +50,7 @@ export class TreeFractal extends AbstractFractal {
   }
 
   drawBranch (depth, size, angle) {
+    console.log('drawing branch (depth, size, angle)', depth, size, angle)
     this.setupUnit()
     this.context.rotate(angle)
     this.context.beginPath()
@@ -57,11 +60,12 @@ export class TreeFractal extends AbstractFractal {
     this.exitUnit()
   }
 
-  draw () {
+  draw () { // TODO: make this redundant
     this.clear()
+    this.context.lineWidth = 2
     this.translate()
 
-    const size = this.height * .9
+    const size = this.height
 
     this.iteration(null, size, 0)
   }

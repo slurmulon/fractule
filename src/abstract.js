@@ -16,7 +16,7 @@ export class AbstractFractal {
       throw 'cannot instantiate an abstract fractal (unless you have the right drugs)'
     }
 
-    this.scale   = scale // TODO: integrate into `centerDrawing` or the like
+    this.scale   = scale
     this.epsilon = epsilon // aka. scaleFactor or unit
     this.points  = points
     this.offset  = offset
@@ -50,23 +50,20 @@ export class AbstractFractal {
     this.width  = this.canvas.width  = width
   }
 
-  // TODO: maybe, would be nice to use generators so people
-  // can generate data from time-intensive resources
-  // setup()
-
   // TODO: use point
   iteration (point, size = this.size, angle = 0, depth = this.depth) {
-    this.context.save()
-    this.context.translate(this.dist, 0) // chaos.context.translate(chaos.width / 2, chaos.height)
-    this.context.scale(this.epsilon, this.epsilon)
+    // this.context.save()
+    // this.context.translate(this.dist, 0)
+    // // this.context.translate(this.width / 2, this.height)
+    // this.context.scale(this.epsilon, this.epsilon)
 
     this.drawUnit(depth, size, angle)
 
-    if (depth > 0) {
-      this.iteration(point, size, angle, depth - 1)
-    }
+    // if (depth > 0) {
+    //   this.iteration(point, size, angle, depth - 1)
+    // }
 
-    this.context.restore()
+    // this.context.restore()
   }
 
   // TODO: integrate setInterval and clearInterval, or use generators
@@ -74,9 +71,9 @@ export class AbstractFractal {
     return this.points.map(this.iteration.bind(this))
   }
 
-  translate (scale = this.scale) {
-    const x = this.width  * scale
-    const y = this.height * scale
+  translate (xScale = this.scale, yScale = this.scale) {
+    const x = this.width  * xScale
+    const y = this.height * yScale
 
     this.context.translate(x, y)
   }
@@ -90,13 +87,15 @@ export class AbstractFractal {
 
   drawUnit (depth = 0, size = 1, angle = 0) {
     [ this.setupUnit,
-      this.positionUnit,
+      this.directUnit,
+      this.moveUnit,
       this.renderUnit,
       this.exitUnit
     ].forEach(step => step.call(this, depth, size, angle))
   }
 
   setupUnit (depth = 0, size = 1, angle = 0) {
+    console.log('\t1. setup')
     this.context.save()
   }
 
@@ -104,9 +103,15 @@ export class AbstractFractal {
     return -size
   }
 
-  positionUnit (depth = 0, size = 1, angle = 0) {
+  directUnit (depth = 0, size = 1, angle = 0) {
+    console.log('\t2. direct')
+
     this.context.rotate(angle)
     this.context.beginPath()
+  }
+
+  moveUnit (depth = 0, size = 1, angle = 0) {
+console.log('\t3. move unit position lineto:', this.scaleUnit(depth, size, angle))
     this.context.moveTo(0, 0)
     this.context.lineTo(0, this.scaleUnit(depth, size, angle))
   }

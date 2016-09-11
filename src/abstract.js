@@ -1,6 +1,6 @@
 import { eucledian } from './distance'
 
-export default class AbstractFractal {
+export class AbstractFractal {
 
   constructor({
     scale,

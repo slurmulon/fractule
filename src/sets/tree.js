@@ -32,22 +32,9 @@ export class TreeFractal extends AbstractFractal {
     return -size * (1 - this.epsilon)
   }
 
-  // moveUnit (depth, size, angle) {
-  //   this.context.moveTo(0, 0)
-  //   this.context.lineTo(0, -size / 2)
-  // }
-
   renderUnit (depth, size, angle) {
-    this.context.save();
-    this.context.rotate(angle);
-    this.context.beginPath();
-    this.context.moveTo(0, 0);
-    this.context.lineTo(0, -size / 2)
-
     this.context.stroke()
     this.context.translate(0, this.scaleUnit(depth, size))
-
-    console.log('\n4. drawing tree (depth, size, angle, translation)', depth, size, angle, this.scaleUnit(depth, size), this.context)
 
     if (depth === 0) {
       console.log('--- depth is 0')
@@ -57,14 +44,9 @@ export class TreeFractal extends AbstractFractal {
     } else {
       console.log('--- depth > 0', depth)
       // more. draw two mini trees instead of branches.
-      // this.drawUnit(depth - 1, size * this.epsilon, this.angles[0]) // FIXME: context is messed up, something along the way
-      // this.drawUnit(depth - 1, size * this.epsilon, this.angles[1])
-
-      this.renderUnit(depth - 1, size * this.epsilon, this.angles[0]) // so close... but shit
-      this.renderUnit(depth - 1, size * this.epsilon, this.angles[1])
+      this.drawUnit(depth - 1, size * this.epsilon, this.angles[0]) // FIXME: context is messed up, something along the way
+      this.drawUnit(depth - 1, size * this.epsilon, this.angles[1])
     }
-
-    this.exitUnit()
   }
 
   drawBranch (depth, size, angle) {

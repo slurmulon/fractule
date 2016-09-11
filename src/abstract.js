@@ -16,7 +16,7 @@ export class AbstractFractal {
       throw 'cannot instantiate an abstract fractal (unless you have the right drugs)'
     }
 
-    this.scale   = scale
+    this.scale   = scale // TODO: integrate into `centerDrawing` or the like
     this.epsilon = epsilon // aka. scaleFactor or unit
     this.points  = points
     this.offset  = offset
@@ -55,7 +55,7 @@ export class AbstractFractal {
   // setup()
 
   // TODO: use point
-  iteration (point, size, angle, depth = this.depth) {
+  iteration (point, size = this.size, angle = 0, depth = this.depth) {
     this.context.save()
     this.context.translate(this.dist, 0) // chaos.context.translate(chaos.width / 2, chaos.height)
     this.context.scale(this.epsilon, this.epsilon)
@@ -63,7 +63,7 @@ export class AbstractFractal {
     this.drawUnit(depth, size, angle)
 
     if (depth > 0) {
-      iteration(point, depth - 1)
+      this.iteration(point, size, angle, depth - 1)
     }
 
     this.context.restore()
@@ -81,7 +81,6 @@ export class AbstractFractal {
   }
 
   drawUnit (depth = 0, size = 1, angle = 0) {
-    console.log('DRAWING UNIT BRO', depth, size, angle);
     [ this.setupUnit,
       this.positionUnit,
       this.renderUnit,

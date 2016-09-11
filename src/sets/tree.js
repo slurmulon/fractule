@@ -12,15 +12,21 @@ export class TreeFractal extends AbstractFractal {
   }) {
     super(...arguments)
 
+    this.points = [{}]
+    this.angles = [
+      -Math.PI / 4,
+      Math.PI / 4
+    ]
+  }
+
+  randomize() {
     this.angles = [
       -Math.PI / 2 * Math.random(),
        Math.PI / 2 * Math.random()
     ]
-
-    this.points = [{}]
   }
 
-  scaleUnit (depth, size, angle) {
+  scaleUnit (depth, size) {
     return -size * (1 - this.epsilon)
   }
 
@@ -41,7 +47,7 @@ export class TreeFractal extends AbstractFractal {
     this.context.restore()
   }
 
-  drawBranch(depth, size, angle) {
+  drawBranch (depth, size, angle) {
     this.setupUnit()
     this.context.rotate(angle)
     this.context.beginPath()
@@ -49,5 +55,14 @@ export class TreeFractal extends AbstractFractal {
     this.context.lineTo(0, -size)
     this.context.stroke()
     this.exitUnit()
+  }
+
+  draw () {
+    this.clear()
+    this.context.translate(this.width * this.scale, this.height * this.scale) // TODO: place this in `centerDrawing` or the like
+
+    const size = this.height * .9
+
+    this.iteration(null, size, 0)
   }
 }

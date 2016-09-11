@@ -2,10 +2,11 @@
   "name": "fractule",
   "version": "0.0.0",
   "description": "Fractal mathematics and visualization API",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "mocha test",
-    "build": "babel src --out-dir lib"
+    "build": "babel src --out-dir lib",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",

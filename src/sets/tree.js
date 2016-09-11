@@ -1,6 +1,6 @@
 import { AbstractFractal } from '../abstract'
 
-export default class TreeFractal extends AbstractFractal {
+export class TreeFractal extends AbstractFractal {
 
   constructor ({
     scale,
@@ -16,6 +16,8 @@ export default class TreeFractal extends AbstractFractal {
       -Math.PI / 2 * Math.random(),
        Math.PI / 2 * Math.random()
     ]
+
+    this.points = [{}]
   }
 
   scaleUnit (depth, size, angle) {
@@ -28,18 +30,23 @@ export default class TreeFractal extends AbstractFractal {
 
     if (depth === 0) {
       // done. draw branches.
-      this.drawBranch(depth, size * this.epsilon, angles[0])
-      this.drawBranch(depth, size * this.epsilon, angles[1])
+      this.drawBranch(depth, size * this.epsilon, this.angles[0])
+      this.drawBranch(depth, size * this.epsilon, this.angles[1])
     } else {
       // more. draw two mini trees instead of branches.
-      this.drawUnit(depth - 1, size * this.epsilon, angles[0])
-      this.drawUnit(depth - 1, size * this.epsilon, angles[1])
+      this.drawUnit(depth - 1, size * this.epsilon, this.angles[0])
+      this.drawUnit(depth - 1, size * this.epsilon, this.angles[1])
     }
+
+    this.context.restore()
   }
 
   drawBranch(depth, size, angle) {
     this.setupUnit()
-    this.positionUnit(depth, size, angle)
+    this.context.rotate(angle)
+    this.context.beginPath()
+    this.context.moveTo(0, 0)
+    this.context.lineTo(0, -size)
     this.context.stroke()
     this.exitUnit()
   }

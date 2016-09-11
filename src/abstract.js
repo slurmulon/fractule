@@ -22,7 +22,7 @@ export class AbstractFractal {
     this.offset  = offset
     this.width   = width
     this.height  = height
-    this.depth   = maxDepth
+    this.depth   = depth
 
     this.canvas  = document.getElementById('canvas')
     this.context = this.canvas.getContext('2d')
@@ -54,12 +54,13 @@ export class AbstractFractal {
   // can generate data from time-intensive resources
   // setup()
 
+  // TODO: use point
   iteration (point, size, angle, depth = this.depth) {
     this.context.save()
-    this.context.translate(dist, 0) // chaos.context.translate(chaos.width / 2, chaos.height)
-    this.context.scale(scaleFactor, scaleFactor)
+    this.context.translate(this.dist, 0) // chaos.context.translate(chaos.width / 2, chaos.height)
+    this.context.scale(this.epsilon, this.epsilon)
 
-    drawUnit(depth, size, angle)
+    this.drawUnit(depth, size, angle)
 
     if (depth > 0) {
       iteration(point, depth - 1)
@@ -70,7 +71,7 @@ export class AbstractFractal {
 
   // TODO: integrate setInterval and clearInterval, or use generators
   iterate (intervals = false) {
-    return this.points.map(this.iteration)
+    return this.points.map(this.iteration.bind(this))
   }
 
   draw () {
@@ -80,11 +81,12 @@ export class AbstractFractal {
   }
 
   drawUnit (depth = 0, size = 1, angle = 0) {
+    console.log('DRAWING UNIT BRO', depth, size, angle);
     [ this.setupUnit,
       this.positionUnit,
       this.renderUnit,
       this.exitUnit
-    ].forEach(step => step(depth, size, angle))
+    ].forEach(step => step.call(this, depth, size, angle))
   }
 
   setupUnit (depth = 0, size = 1, angle = 0) {
@@ -99,7 +101,7 @@ export class AbstractFractal {
     this.context.rotate(angle)
     this.context.beginPath()
     this.context.moveTo(0, 0)
-    this.context.lineTo(0, this.scaleUnit(step, size, angle))
+    this.context.lineTo(0, this.scaleUnit(depth, size, angle))
   }
 
   renderUnit (depth = 0, size = 1, angle = 0) {

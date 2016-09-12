@@ -101,7 +101,7 @@ should give you something like this:
 
 ## Contributing
 
-I am always looking for contributers, so if you're interested simply open up a PR or message me at me@madhax.io!
+I am always looking for contributors, so if you're interested simply open up a PR or message me at me@madhax.io!
 
 ## TODO
 

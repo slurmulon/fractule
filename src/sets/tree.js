@@ -33,15 +33,18 @@ export class TreeFractal extends AbstractFractal {
   }
 
   renderUnit (depth, size, angle) {
+    const scaledSize = size * this.epsilon
+    const [leftAngle, rightAngle] = this.angles
+
     this.context.stroke()
     this.context.translate(0, this.scaleUnit(depth, size))
 
     if (depth === 0) {
-      this.drawBranch(depth, size * this.epsilon, this.angles[0])
-      this.drawBranch(depth, size * this.epsilon, this.angles[1])
+      this.drawBranch(depth, scaledSize, leftAngle)
+      this.drawBranch(depth, scaledSize, rightAngle)
     } else {
-      this.drawUnit(depth - 1, size * this.epsilon, this.angles[0])
-      this.drawUnit(depth - 1, size * this.epsilon, this.angles[1])
+      this.drawUnit(depth - 1, scaledSize, leftAngle)
+      this.drawUnit(depth - 1, scaledSize, rightAngle)
     }
   }
 

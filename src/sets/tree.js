@@ -45,12 +45,16 @@ export class TreeFractal extends AbstractFractal {
     }
   }
 
-  drawBranch (depth, size, angle) {
-    this.setupUnit()
-    this.directUnit(depth, size, angle)
+  moveBranch (size) {
     this.context.moveTo(0, 0)
     this.context.lineTo(0, -size)
     this.context.stroke()
+  }
+
+  drawBranch (depth, size, angle) {
+    this.setupUnit()
+    this.directUnit(depth, size, angle)
+    this.moveBranch(size)
     this.exitUnit()
   }
 

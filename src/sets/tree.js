@@ -17,8 +17,6 @@ export class TreeFractal extends AbstractFractal {
       -Math.PI / 4,
       Math.PI / 4
     ]
-
-    this.context.lineWidth = 2
   }
 
   randomize (delta = 2) {

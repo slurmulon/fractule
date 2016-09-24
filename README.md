@@ -74,13 +74,13 @@ This API is certainly bound to change, but it currently defines an SVG-based int
 
 fractule implements various "sets", which are simply common fractal equations that can be visualized via configuration:
 
-- [ ] Tree
+- [X] Tree
 - [ ] Koch Curve
 - [ ] Koch Snowflake
 - [ ] Sierpinski Triangle
 - [ ] Mandelbrot
 - [ ] Julia
-- [ ] Logarithmic Bifurcation
+- [X] Bifurcation
 - [ ] Lorenz Strange Attractor
 - [ ] Coastlines
 - [ ] Lightning
@@ -120,7 +120,7 @@ which should give you something like this:
 
 I am always looking for contributors, so if you're interested simply open up a PR or message me at me@madhax.io!
 
-## TODO
+## Roadmap
 
 - [ ] Controls (zoom, pop, etc.)
 - [ ] Colors (background, fill, transformation function / matrix, etc.)

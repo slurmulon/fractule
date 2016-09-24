@@ -15,7 +15,7 @@ export class TreeFractal extends AbstractFractal {
     this.points = [null]
     this.angles = [
       -Math.PI / 4,
-      Math.PI / 4
+       Math.PI / 4
     ]
   }
 

@@ -61,7 +61,7 @@ export class AbstractFractal {
   }
 
   // TODO: integrate setInterval and clearInterval, or use generators
-  iterate (intervals = false) {
+  iterate (depth = this.depth, size = this.size, angle = 0, intervals = false) {
     return this.points.map(this.iteration.bind(this))
   }
 
@@ -72,9 +72,13 @@ export class AbstractFractal {
     this.context.translate(x, y)
   }
 
-  draw () {
+  setup () {
     this.clear()
     this.translate()
+  }
+
+  draw () {
+    this.setup()
 
     return this.iterate()
   }

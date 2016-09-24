@@ -1,6 +1,3 @@
-// pg. 720 - Logistic Map Bifurcation
-// pg. 687, 691 - Populations
-
 import { AbstractFractal } from '../abstract'
 
 export class BifurcationFractal extends AbstractFractal {
@@ -45,13 +42,9 @@ export class BifurcationFractal extends AbstractFractal {
       const x = this.cursor
       const y = this.height - (this.y - this.minY) / this.deltas.y
 
-      console.log('\tat', x, y)
-
       this.context.fillRect(x, y, 1, 1)
     }
   }
-
-  // exitUnit
 
   iterate (depth = this.cursor, size = this.size, angle = 0) {
     this.y = 0.5

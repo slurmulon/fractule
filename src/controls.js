@@ -1,10 +1,10 @@
 import keycode from 'keycode'
 
-export default class FractalControls {
+export class FractalControls {
 
-  constructor (elem, fractal) {
-    this.elem    = elem
+  constructor (fractal, elem = document.body) {
     this.fractal = fractal
+    this.elem    = elem
   }
 
   bind () {
@@ -25,6 +25,9 @@ export default class FractalControls {
       case 'space':
         this.fractal.iterate()
         break
+      case 'p':
+        this.popImage()
+        break
       default:
         break
     }
@@ -42,6 +45,13 @@ export default class FractalControls {
 
   mouseDown (event) {
     return true
+  }
+
+  popImage () {
+    const win = window.open('', 'Canvas Fractal Image')
+    const src = this.fractal.canvas.toDataURL('image/png')
+
+    win.document.write(`<img src="${src}" width="${this.width}" height="${this.height}"/>`)
   }
 
 }

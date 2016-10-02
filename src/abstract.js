@@ -1,3 +1,4 @@
+import { FractalControls } from './controls'
 import { eucledian } from './distance'
 
 export class AbstractFractal {
@@ -24,8 +25,9 @@ export class AbstractFractal {
     this.height  = height
     this.depth   = depth
 
-    this.canvas  = document.getElementById('canvas')
-    this.context = this.canvas.getContext('2d')
+    this.canvas   = document.getElementById('canvas')
+    this.context  = this.canvas.getContext('2d')
+    this.controls = new FractalControls(this)
 
     this.size  = { height, width }
     this.pipes = [ ] // TODO: allow arbitary piping / mapping on fractal units (drawUnit)

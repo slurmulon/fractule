@@ -37,8 +37,9 @@ export class BifurcationFractal extends AbstractFractal {
   renderUnit (cursor) {
     const scale = this.minX + this.cursor * this.deltas.x
 
-    this.y = this.y * scale * (1 - this.y) // TODO: put this in its own func
+    this.y = this.y * scale * (1 - this.y)
 
+    // waits to give the function time to converge
     if (cursor > 100) {
       const x = this.cursor
       const y = this.height - (this.y - this.minY) / this.deltas.y

@@ -54,8 +54,8 @@ export class BifurcationFractal extends AbstractFractal {
     this.y = 0.5
 
     for (let at = 0; at < 200; at += 1) {
-      this.renderUnit(at)
       this.moveUnit(this.cursor)
+      this.renderUnit(at)
     }
 
     if (++this.cursor < this.width) {

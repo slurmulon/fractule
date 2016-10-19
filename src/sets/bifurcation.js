@@ -33,12 +33,13 @@ export class BifurcationFractal extends AbstractFractal {
     }
   }
 
-  // TODO: break out positioning logic into positionUnit. prevents needing to track x/y as well
-  renderUnit (cursor) {
-    const scale = this.minX + this.cursor * this.deltas.x
+  moveUnit (cursor) {
+    const scale = this.minX + this.deltas.x * cursor
 
     this.y = this.y * scale * (1 - this.y)
+  }
 
+  renderUnit (cursor) {
     // waits to give the function time to converge
     if (cursor > 100) {
       const x = this.cursor
@@ -48,11 +49,13 @@ export class BifurcationFractal extends AbstractFractal {
     }
   }
 
+  // TODO: clean up this.cursor vs. cursor, highly confusing
   iterate (cursor = this.cursor) {
     this.y = 0.5
 
     for (let at = 0; at < 200; at += 1) {
       this.renderUnit(at)
+      this.moveUnit(this.cursor)
     }
 
     if (++this.cursor < this.width) {

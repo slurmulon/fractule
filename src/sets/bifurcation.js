@@ -49,8 +49,7 @@ export class BifurcationFractal extends AbstractFractal {
     }
   }
 
-  // TODO: clean up this.cursor vs. cursor, highly confusing
-  iterate (cursor = this.cursor) {
+  iterate (axiom = this.cursor) {
     this.y = 0.5
 
     for (let at = 0; at < 200; at += 1) {
@@ -59,7 +58,7 @@ export class BifurcationFractal extends AbstractFractal {
     }
 
     if (++this.cursor < this.width) {
-      this.iterate(cursor)
+      this.iterate(axiom)
     }
   }
 

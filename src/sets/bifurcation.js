@@ -35,8 +35,9 @@ export class BifurcationFractal extends AbstractFractal {
 
   moveUnit (cursor) {
     const scale = this.minX + this.deltas.x * cursor
+    const diff = 1 - this.y
 
-    this.y = this.y * scale * (1 - this.y)
+    this.y = this.y * scale * diff
   }
 
   renderUnit (cursor) {

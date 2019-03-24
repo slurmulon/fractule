@@ -1,5 +1,5 @@
 import { FractalControls } from './controls'
-import { eucledian } from './distance'
+// import { eucledian } from './distance'
 
 export class AbstractFractal {
 
@@ -19,6 +19,7 @@ export class AbstractFractal {
 
     this.scale   = scale
     this.epsilon = epsilon // aka. scaleFactor or unit
+    this.dist    = dist
     this.points  = points
     // this.offset  = offset
     this.width   = width
@@ -121,9 +122,9 @@ export class AbstractFractal {
     this.context.restore()
   }
 
-  distance (p0, p1) { // TODO: integrate
-    return eucledian(p0, p1)
-  }
+  // distance (p0, p1) { // TODO: integrate
+  //   return eucledian(p0, p1)
+  // }
 
   clear (color) {
     if (color) {

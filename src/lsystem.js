@@ -123,7 +123,8 @@ export class LSystemFractal extends AbstractFractal {
   draw (grammar = this.grammar, colors = this.colors) {
     this.focus()
     this.process(grammar, colors, step => {
-      this.context.lineWidth = 5
+      this.context.lineWidth = Math.max(this.depth - this.stack.length, 1)
+
       this.context.beginPath()
       this.context.moveTo(step.lastX, this.height - (step.lastY + this.offsets.y))
       this.context.lineTo(this.cursor.x, this.height - (this.cursor.y + this.offsets.y))

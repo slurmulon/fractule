@@ -113,6 +113,7 @@ export class AbstractFractal {
   }
 
   renderUnit (depth = 0, size = 1, angle = 0) {
+    // TODO: Consider this.context.closePath()
     this.context.stroke()
   }
 

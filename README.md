@@ -130,6 +130,25 @@ bifur.draw()
 
 ![Bifurcation Fractal Example](./assets/bifurcation.png)
 
+### L-System
+
+```js
+import { LSystemFractal } from 'fractule'
+
+const lsystem = new LSystemFractal({
+  iterations: 4,
+  angle: 72,
+  axiom: 'F-F-F-F-F',
+  rules: {
+    'F': 'F-F++F+F-F-F'
+  }
+})
+
+lsystem.draw()
+```
+
+![L-System Fractal Example](./assets/lsystem-1.png)
+
 ## Contributing
 
 I am always looking for contributors, so if you're interested simply open up a PR or message me at me@madhax.io!

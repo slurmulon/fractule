@@ -16,11 +16,11 @@ export class LSystemFractal extends AbstractFractal {
   constructor ({
     scale,
     // dist = 10,
-    width = window.innerWidth,
-    height = window.innerHeight,
+    // width = window.innerWidth,
+    // height = window.innerHeight,
     depth,
     angle = 120,
-    distance = 10,
+    distance = 100, //10,
     axiom = '', // null
     // distance = 10
     // variables: [], // TODO: If we want to force all potential variables to be declared up-front
@@ -28,7 +28,7 @@ export class LSystemFractal extends AbstractFractal {
     rules = {}, //[],
     iterations = 1,
     grammar = TurtleGrammar,
-    dimensions = new LSystemDimensions({}),
+    // dimensions = new LSystemDimensions({}),
     offsets = { x: 0, y: 0 },
     ceiling = 1000000000
   }) {
@@ -42,11 +42,20 @@ export class LSystemFractal extends AbstractFractal {
     this.axiom = axiom
     this.iterations = iterations
     this.grammar = grammar
-    this.dimensions = dimensions
+    // this.dimensions = dimensions
     this.offsets = offsets
 
     this.cursor = null
     this.stack = []
+  }
+
+  get dimensions () {
+    return new LSystemDimensions({
+      minX: 0,
+      minY: 0,
+      maxX: this.canvas.width,
+      maxY: this.canvas.height
+    })
   }
 
   // TODO: Consider making these analogous to "points" so that they can be automagically processed by `this.iterate`
@@ -64,7 +73,9 @@ export class LSystemFractal extends AbstractFractal {
       for (const token of axiom) {
         const rule = rules[token]
 
-        commands.push(rule !== null ? rule : token)
+        console.log('--- [command parse], rule, token, axiom', rule, token, axiom)
+
+        commands.push(rule != null ? rule : token)
 
         if (commands.length > ceiling) {
           throw 'Way too many commands, bro'
@@ -75,31 +86,53 @@ export class LSystemFractal extends AbstractFractal {
     return commands.join('')
   }
 
+  // process (drawv) {
+
+  // }
+
   // TODO: Move a lot of this into `translate` override
+  // TODO: Copypasta `calcOffsets` (but try to avoid, it literally processes everything twice lol)
   setup () {
     this.clear()
 
-    const { dimensions, distance, height, width } = this
+    // const { dimensions, distance, height, width } = this
+    const { dimensions, distance } = this
+    const { height, width } = this.canvas
+
+    console.log('canvas height, width', height, width)
 
     let scaledDistance
 
     if (dimensions.maxX - dimensions.minX > dimensions.maxY - dimensions.minY) {
-      scaledDistance = (width / Math.max(1, dimensions.maxX - dimensions.minX)) * distance
+      // scaledDistance = (width / Math.max(1, dimensions.maxX - dimensions.minX)) * distance
+      scaledDistance = (width / (dimensions.maxX - dimensions.minX)) * distance
+      console.log('largest delta: x', width, scaledDistance)
     } else {
-      scaledDistance = (height / Math.max(1, dimensions.maxY - dimensions.minY)) * distance
+      // scaledDistance = (height / Math.max(1, dimensions.maxY - dimensions.minY)) * distance
+      scaledDistance = (height / (dimensions.maxY - dimensions.minY)) * distance
+      console.log('largest delta: y', height, scaledDistance)
     }
 
-    console.log('OLD DIMENSIONS', dimensions, scaledDistance)
+    console.log('OLD DIMENSIONS', dimensions, distance, scaledDistance)
 
-    dimensions.minX = 0 //(scaledDistance / distance)
-    dimensions.maxX = (scaledDistance / distance)
-    dimensions.minY = 0 //(scaledDistance / distance)
-    dimensions.maxY = (scaledDistance / distance)
+    dimensions.minX *= (scaledDistance / distance)
+    dimensions.maxX *= (scaledDistance / distance)
+    dimensions.minY *= (scaledDistance / distance)
+    dimensions.maxY *= (scaledDistance / distance)
 
     console.log('NEW DIMENSIONS', dimensions)
 
+    // dimensions.minX = 0
+    // dimensions.maxX = this.width
+    // dimensions.minY = 0
+    // dimensions.maxY = this.height
+
     this.offsets.x = (width / 2) - (((dimensions.maxX - dimensions.minX) / 2) + dimensions.minX)
     this.offsets.y = (height / 2) - (((dimensions.maxY - dimensions.minY) / 2) + dimensions.minY)
+
+    console.log('NEW OFFSETS', this.offsets)
+
+    this.distance = scaledDistance
 
     this.context.translate(this.offsets.x, 0)
     this.context.strokeStyle = 'rgb(0,0,0)'
@@ -112,14 +145,18 @@ export class LSystemFractal extends AbstractFractal {
     this.cursor = new LSystemPosition({})
     this.stack = []
 
+    console.log('starting cursor', this.cursor)
+
     this.setup()
+
+    console.log('commands', commands)
 
     for (const command of commands) {
       console.log('processing command', command)
       const action = grammar[command]
 
       if (action instanceof Function) {
-        action(this).call(this, this.cursor)
+        action(this).call(this)
       } else if (!constants.includes(command)) {
         lastX = this.cursor.x
         lastY = this.cursor.y
@@ -138,23 +175,30 @@ export class LSystemFractal extends AbstractFractal {
 
         console.log('yoffset', yOffset)
 
+        // TODO: Support 'F' and 'G' (break out into `forward` and `move`)
+        this.context.lineWidth = 1
         this.context.beginPath()
         this.context.moveTo(lastX, this.height - (lastY + yOffset))
         this.context.lineTo(this.cursor.x, this.height - (this.cursor.y + yOffset))
+        //
+        this.context.closePath()
+        this.context.stroke()
       }
     }
+
+    this.context.restore()
   }
 
-  left (position) {
-    position.heading += this.angle
-
-    return position
+  left () {
+    console.log('left prev, next', this.cursor.heading, this.cursor.heading + this.angle)
+    this.cursor.heading += this.angle
+    // this.cursor.heading -= this.angle
+    console.log('left new cursor', this.cursor.heading)
   }
 
   right (position) {
-    position.heading -= this.angle
-
-    return position
+    this.cursor.heading -= this.angle
+    // this.cursor.heading += this.angle
   }
 
   push (position) {
@@ -200,8 +244,8 @@ export class LSystemDimensions {
   constructor ({
     minX = 0,
     minY = 0,
-    maxX = 0,
-    maxY = 0
+    maxX = 0, // window.innerWidth
+    maxY = 0 // window.innerHeight
   }) {
     this.minX = minX
     this.minY = minY

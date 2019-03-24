@@ -1,26 +1,13 @@
-import LSystemGrammar from '../grammar'
+import LsysGrammar from '../grammar'
 
-// export class TurtleLSystemGrammmar extends LSystemGrammar {
-
-//   constructor () {
-//     super(...arguments)
-
-//     // TODO: Consider reversing the key/values here
-//     this.tokens = {
-//       '+': this.left, // turn anti-clockwise
-//       '-': this.right, // turn clockwise
-//       '[': this.push, // push
-//       ']': this.pop, // pop
-//       'C': this.style, // color
-//     }
-//   }
-
-// }
+// pg. 80 of Computational Beauty of Nature
 
 export default {
-  '+': system => system.left,
-  '-': system => system.right,
-  '[': system => system.push,
-  ']': system => system.pop,
-  'C': system => system.style
+  // 'F': sys => sys.forward, // AKA draw forward
+  // 'G': sys => sys.move, // AKA move forward
+  '+': sys => sys.left,
+  '-': sys => sys.right,
+  '[': sys => sys.push,
+  ']': sys => sys.pop,
+  'C': sys => sys.style
 }

@@ -46,7 +46,7 @@ export class LSystemFractal extends AbstractFractal {
       }
     })
   }
-  //
+
   // TODO: Consider making these analogous to "points" so that they can be automagically processed by `this.iterate`
   get commands () {
     let { axiom, rules, ceiling } = this
@@ -71,83 +71,6 @@ export class LSystemFractal extends AbstractFractal {
     }
 
     return commands.join('')
-  }
-
-  // TODO: Move a lot of this into `translate` override
-  setup () {
-    this.clear()
-
-    const { dimensions, distance } = this
-    const { height, width } = this.canvas
-
-    let scaledDistance
-
-    if (dimensions.max.x - dimensions.min.x > dimensions.max.y - dimensions.min.y) {
-      scaledDistance = (width / (dimensions.max.x - dimensions.min.x)) * distance
-    } else {
-      scaledDistance = (height / (dimensions.max.y - dimensions.min.y)) * distance
-    }
-
-    const relativeDistance = scaledDistance / distance
-
-    this.distance = scaledDistance
-    this.dimensions.min.x *= relativeDistance
-    this.dimensions.max.x *= relativeDistance
-    this.dimensions.min.y *= relativeDistance
-    this.dimensions.max.y *= relativeDistance
-
-    this.offsets.x = (width / 2)  - (((this.dimensions.max.x - this.dimensions.min.x) / 2) + this.dimensions.min.x)
-    this.offsets.y = (height / 2) - (((this.dimensions.max.y - this.dimensions.min.y) / 2) + this.dimensions.min.y)
-
-    this.context.translate(this.offsets.x, 0)
-    this.context.strokeStyle = 'rgb(0,0,0)'
-  }
-
-  focus () {
-    this.process({
-      commit: step => {
-        if (this.cursor.x < this.dimensions.min.x) {
-          this.dimensions.min.x = this.cursor.x
-        } else if (this.cursor.x > this.dimensions.max.x) {
-          this.dimensions.max.x = this.cursor.x
-        }
-
-        if (this.cursor.y < this.dimensions.min.y) {
-          this.dimensions.min.y = this.cursor.y
-        } else if (this.cursor.y > this.dimensions.max.y) {
-          this.dimensions.max.y = this.cursor.y
-        }
-
-        if (this.stack.length > this.depth) {
-          this.depth = this.stack.length
-        }
-      }
-    })
-
-    this.setup()
-  }
-
-  draw ({
-    grammar = this.grammar,
-    colors = this.colors
-  } = {}) {
-    this.focus()
-    this.process({
-      grammar,
-      colors,
-      after: () => this.context.restore(),
-      commit: step => {
-        this.context.lineWidth = Math.max(this.depth - this.stack.length, 1)
-
-        this.context.beginPath()
-        this.context.moveTo(step.last.x, this.height - (step.last.y + this.offsets.y))
-        this.context.lineTo(this.cursor.x, this.height - (this.cursor.y + this.offsets.y))
-
-        // TODO: Should just call `renderUnit`
-        this.context.closePath()
-        this.context.stroke()
-      }
-    })
   }
 
   process ({
@@ -200,6 +123,83 @@ export class LSystemFractal extends AbstractFractal {
   // TODO!
   style (position) {
     return 'rgba(140, 80, 60, 0.75)'
+  }
+
+  // TODO: Move a lot of this into `translate` override
+  conform () {
+    this.clear()
+
+    const { dimensions, distance } = this
+    const { height, width } = this.canvas
+
+    let scaledDistance
+
+    if (dimensions.max.x - dimensions.min.x > dimensions.max.y - dimensions.min.y) {
+      scaledDistance = (width  / (dimensions.max.x - dimensions.min.x)) * distance
+    } else {
+      scaledDistance = (height / (dimensions.max.y - dimensions.min.y)) * distance
+    }
+
+    const relativeDistance = scaledDistance / distance
+
+    this.distance = scaledDistance
+    this.dimensions.min.x *= relativeDistance
+    this.dimensions.max.x *= relativeDistance
+    this.dimensions.min.y *= relativeDistance
+    this.dimensions.max.y *= relativeDistance
+
+    this.offsets.x = (width / 2)  - (((this.dimensions.max.x - this.dimensions.min.x) / 2) + this.dimensions.min.x)
+    this.offsets.y = (height / 2) - (((this.dimensions.max.y - this.dimensions.min.y) / 2) + this.dimensions.min.y)
+
+    this.context.translate(this.offsets.x, 0)
+    this.context.strokeStyle = 'rgb(0,0,0)'
+  }
+
+  focus () {
+    this.process({
+      commit: step => {
+        if (this.cursor.x < this.dimensions.min.x) {
+          this.dimensions.min.x = this.cursor.x
+        } else if (this.cursor.x > this.dimensions.max.x) {
+          this.dimensions.max.x = this.cursor.x
+        }
+
+        if (this.cursor.y < this.dimensions.min.y) {
+          this.dimensions.min.y = this.cursor.y
+        } else if (this.cursor.y > this.dimensions.max.y) {
+          this.dimensions.max.y = this.cursor.y
+        }
+
+        if (this.stack.length > this.depth) {
+          this.depth = this.stack.length
+        }
+      }
+    })
+
+    this.conform()
+  }
+
+  draw ({
+    grammar = this.grammar,
+    colors = this.colors
+  } = {}) {
+    this.focus()
+    this.process({
+      grammar,
+      colors,
+      after: () => this.context.restore(),
+      commit: step => {
+        this.context.lineWidth = Math.max(this.depth - this.stack.length, 1)
+
+        this.context.beginPath()
+        this.context.moveTo(step.last.x, this.height - (step.last.y + this.offsets.y))
+        this.context.lineTo(this.cursor.x, this.height - (this.cursor.y + this.offsets.y))
+
+        // TODO: Should just call `renderUnit`
+        this.context.closePath()
+        this.context.stroke()
+      }
+    })
   }
 
 }

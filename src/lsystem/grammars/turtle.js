@@ -1,5 +1,3 @@
-import LsysGrammar from '../grammar'
-
 // pg. 80 of Computational Beauty of Nature
 
 export default {

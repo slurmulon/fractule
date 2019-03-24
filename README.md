@@ -20,7 +20,7 @@ fractule will eventually extend beyond this work in order to help establish the 
 
 ## API
 
-This API is certainly bound to change, but it currently defines an SVG-based interface for preparing, scaling, transforming and rendering fractal shapes.  Although the visualization API described below will slowly evolve, most of the additional work will be towards the mathematics API (which as of now, is really just `dimension`):
+This API is certainly bound to change, but it currently defines an HTML5 canvas interface for preparing, scaling, transforming and rendering fractal shapes.  Although the visualization API described below will slowly evolve, most of the additional work will be towards the mathematics API (which as of now, is really just `dimension`):
 
 * `iterate`
 
@@ -140,7 +140,10 @@ I am always looking for contributors, so if you're interested simply open up a P
 - [ ] Colors (background, fill, transformation function / matrix, etc.)
 - [ ] Math API
 - [ ] Scientific notation (like Wolfram)
-- [ ] Turtle renderer
+- [ ] Parallel renderings
+- [ ] Custom interpreters
+- [ ] Separate math and visualizations more
+- [ ] TypeScript
 - [ ] Tests
 
 ## License

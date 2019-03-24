@@ -119,10 +119,14 @@ tree.draw()
 import { BifurcationFractal } from 'fractule'
 
 const bifur = new BifurcationFractal({
-  minX: 2,
-  maxX: 4,
-  minY: 0,
-  maxY: 1
+  min: {
+    x: 2,
+    Y: 0
+  },
+  max: {
+    x: 4,
+    y: 1
+  }
 })
 
 bifur.draw()

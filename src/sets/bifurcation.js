@@ -3,24 +3,24 @@ import { AbstractFractal } from '../abstract'
 export class BifurcationFractal extends AbstractFractal {
 
   constructor ({
-    x, // (r)
-    y = 0.5, // (p)
-    minX,
-    minY,
-    maxX,
-    maxY,
+    ratio = 0.5, // (p)
+    min = {
+      x: 0,
+      y: 0
+    },
+    max = {
+      x: 0,
+      y: 0
+    },
     width,
     height,
     depth
   }) {
     super(...arguments)
 
-    this.x = x
-    this.y = y
-    this.minX = minX
-    this.minY = minY
-    this.maxX = maxX
-    this.maxY = maxY
+    this.ratio = ratio
+    this.min = min
+    this.max = max
     this.cursor = 0
   }
 
@@ -28,30 +28,30 @@ export class BifurcationFractal extends AbstractFractal {
     this.clear()
 
     this.deltas = {
-      x: (this.maxX - this.minX) / this.width,
-      y: (this.maxY - this.minY) / this.height
+      x: (this.max.x - this.min.x) / this.width,
+      y: (this.max.y - this.min.y) / this.height
     }
   }
 
   moveUnit (cursor) {
-    const scale = this.minX + this.deltas.x * cursor
-    const diff = 1 - this.y
+    const scale = this.min.x + this.deltas.x * cursor
+    const diff = 1 - this.ratio
 
-    this.y = this.y * scale * diff
+    this.ratio = this.ratio * scale * diff
   }
 
   renderUnit (cursor) {
     // waits to give the function time to converge
     if (cursor > 100) {
       const x = this.cursor
-      const y = this.height - (this.y - this.minY) / this.deltas.y
+      const y = this.height - (this.ratio - this.min.y) / this.deltas.y
 
       this.context.fillRect(x, y, 1, 1)
     }
   }
 
   iterate (axiom = this.cursor) {
-    this.y = 0.5
+    this.ratio = 0.5
 
     for (let at = 0; at < 200; at += 1) {
       this.moveUnit(this.cursor)

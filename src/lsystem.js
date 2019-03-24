@@ -37,10 +37,18 @@ export class LSystemFractal extends AbstractFractal {
     this.cursor = null
     this.stack = []
     this.dimensions = new LSystemDimensions({
-      minX: 0,
-      minY: 0,
-      maxX: this.canvas.width, //this.width,
-      maxY: this.canvas.height //this.height
+      min: {
+        x: 0,
+        y: 0
+      },
+      max: {
+        x: this.canvas.width,
+        y: this.canvas.height
+      }
+      // min.x: 0,
+      // min.y: 0,
+      // max.x: this.canvas.width, //this.width,
+      // max.y: this.canvas.height //this.height
     })
   }
   //
@@ -79,23 +87,22 @@ export class LSystemFractal extends AbstractFractal {
 
     let scaledDistance
 
-    if (dimensions.maxX - dimensions.minX > dimensions.maxY - dimensions.minY) {
-      scaledDistance = (width / (dimensions.maxX - dimensions.minX)) * distance
+    if (dimensions.max.x - dimensions.min.x > dimensions.max.y - dimensions.min.y) {
+      scaledDistance = (width / (dimensions.max.x - dimensions.min.x)) * distance
     } else {
-      scaledDistance = (height / (dimensions.maxY - dimensions.minY)) * distance
+      scaledDistance = (height / (dimensions.max.y - dimensions.min.y)) * distance
     }
 
     const relativeDistance = scaledDistance / distance
 
     this.distance = scaledDistance
+    this.dimensions.min.x *= relativeDistance
+    this.dimensions.max.x *= relativeDistance
+    this.dimensions.min.y *= relativeDistance
+    this.dimensions.max.y *= relativeDistance
 
-    this.dimensions.minX *= relativeDistance
-    this.dimensions.maxX *= relativeDistance
-    this.dimensions.minY *= relativeDistance
-    this.dimensions.maxY *= relativeDistance
-
-    this.offsets.x = (width / 2) - (((this.dimensions.maxX - this.dimensions.minX) / 2) + this.dimensions.minX)
-    this.offsets.y = (height / 2) - (((this.dimensions.maxY - this.dimensions.minY) / 2) + this.dimensions.minY)
+    this.offsets.x = (width / 2)  - (((this.dimensions.max.x - this.dimensions.min.x) / 2) + this.dimensions.min.x)
+    this.offsets.y = (height / 2) - (((this.dimensions.max.y - this.dimensions.min.y) / 2) + this.dimensions.min.y)
 
     this.context.translate(this.offsets.x, 0)
     this.context.strokeStyle = 'rgb(0,0,0)'
@@ -104,16 +111,16 @@ export class LSystemFractal extends AbstractFractal {
   focus () {
     this.process({
       commit: step => {
-        if (this.cursor.x < this.dimensions.minX) {
-          this.dimensions.minX = this.cursor.x
-        } else if (this.cursor.x > this.dimensions.maxX) {
-          this.dimensions.maxX = this.cursor.x
+        if (this.cursor.x < this.dimensions.min.x) {
+          this.dimensions.min.x = this.cursor.x
+        } else if (this.cursor.x > this.dimensions.max.x) {
+          this.dimensions.max.x = this.cursor.x
         }
 
-        if (this.cursor.y < this.dimensions.minY) {
-          this.dimensions.minY = this.cursor.y
-        } else if (this.cursor.y > this.dimensions.maxY) {
-          this.dimensions.maxY = this.cursor.y
+        if (this.cursor.y < this.dimensions.min.y) {
+          this.dimensions.min.y = this.cursor.y
+        } else if (this.cursor.y > this.dimensions.max.y) {
+          this.dimensions.max.y = this.cursor.y
         }
 
         if (this.stack.length > this.depth) {

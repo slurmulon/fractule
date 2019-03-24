@@ -191,6 +191,7 @@ I am always looking for contributors, so if you're interested simply open up a P
 - [ ] Math API
 - [ ] Scientific notation (like Wolfram)
 - [ ] Parallel renderings
+- [ ] 3D renderings
 - [ ] Custom interpreters
 - [ ] Separate math and visualizations more
 - [ ] TypeScript

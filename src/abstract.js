@@ -1,5 +1,5 @@
 import { FractalControls } from './controls'
-import { eucledian } from './distance'
+// import { eucledian } from './distance'
 
 export class AbstractFractal {
 
@@ -7,8 +7,8 @@ export class AbstractFractal {
     scale,
     epsilon, // length of each sub-segment
     dist,    // length of the main segment
-    points = [ ],
-    offset = 0,
+    points = [null],
+    // offset = 0,
     width  = window.innerWidth,
     height = window.innerHeight,
     depth  = 0
@@ -19,8 +19,9 @@ export class AbstractFractal {
 
     this.scale   = scale
     this.epsilon = epsilon // aka. scaleFactor or unit
+    this.dist    = dist
     this.points  = points
-    this.offset  = offset
+    // this.offset  = offset
     this.width   = width
     this.height  = height
     this.depth   = depth
@@ -43,7 +44,7 @@ export class AbstractFractal {
     }
   }
 
-  get dimension() {
+  get dimension () {
     // @see pg. 5 section 1.3.2, PAFS
   }
 
@@ -113,6 +114,7 @@ export class AbstractFractal {
   }
 
   renderUnit (depth = 0, size = 1, angle = 0) {
+    // TODO: Consider this.context.closePath()
     this.context.stroke()
   }
 
@@ -120,9 +122,9 @@ export class AbstractFractal {
     this.context.restore()
   }
 
-  distance (p0, p1) { // TODO: integrate
-    return eucledian(p0, p1)
-  }
+  // distance (p0, p1) { // TODO: integrate
+  //   return eucledian(p0, p1)
+  // }
 
   clear (color) {
     if (color) {
@@ -134,3 +136,5 @@ export class AbstractFractal {
   }
 
 }
+
+export default AbstractFractal

@@ -7,8 +7,8 @@ export class AbstractFractal {
     scale,
     epsilon, // length of each sub-segment
     dist,    // length of the main segment
-    points = [ ],
-    offset = 0,
+    points = [null],
+    // offset = 0,
     width  = window.innerWidth,
     height = window.innerHeight,
     depth  = 0
@@ -20,7 +20,7 @@ export class AbstractFractal {
     this.scale   = scale
     this.epsilon = epsilon // aka. scaleFactor or unit
     this.points  = points
-    this.offset  = offset
+    // this.offset  = offset
     this.width   = width
     this.height  = height
     this.depth   = depth
@@ -43,7 +43,7 @@ export class AbstractFractal {
     }
   }
 
-  get dimension() {
+  get dimension () {
     // @see pg. 5 section 1.3.2, PAFS
   }
 
@@ -134,3 +134,5 @@ export class AbstractFractal {
   }
 
 }
+
+export default AbstractFractal

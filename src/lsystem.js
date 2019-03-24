@@ -140,14 +140,15 @@ export class LSystemFractal extends AbstractFractal {
     this.context.strokeStyle = 'rgb(0,0,0)'
   }
 
-  // focus () {
-  //   this.setup()
-  //   this.process(undefined, undefined, false)
-  // }
+  focus () {
+    this.process(undefined, undefined, false)
+    this.setup()
+  }
 
   draw (grammar = this.grammar, colors) {
-    this.process(grammar, undefined, false)
-    this.setup() // TODO: rename to `focus`
+    // this.process(grammar, colors, false)
+    // this.setup() // TODO: rename to `focus`
+    this.focus()
     this.process(grammar, colors, true)
   }
 

@@ -9,7 +9,7 @@ export class LSystemFractal extends AbstractFractal {
     scale,
     depth,
     angle = 120,
-    distance = 100, //10,
+    distance = 10,
     axiom = '', // null
     // variables: [], // TODO: If we want to force all potential variables to be declared up-front
     constants = '',
@@ -38,6 +38,8 @@ export class LSystemFractal extends AbstractFractal {
     this.dimensions = new LSystemDimensions({
       minX: 0,
       minY: 0,
+      // maxX: this.width,
+      // maxY: this.height
       maxX: this.canvas.width,
       maxY: this.canvas.height
     })
@@ -84,15 +86,17 @@ export class LSystemFractal extends AbstractFractal {
       scaledDistance = (height / (dimensions.maxY - dimensions.minY)) * distance
     }
 
-    this.dimensions.minX *= (scaledDistance / distance)
-    this.dimensions.maxX *= (scaledDistance / distance)
-    this.dimensions.minY *= (scaledDistance / distance)
-    this.dimensions.maxY *= (scaledDistance / distance)
-
-    this.offsets.x = (width / 2) - (((dimensions.maxX - dimensions.minX) / 2) + dimensions.minX)
-    this.offsets.y = (height / 2) - (((dimensions.maxY - dimensions.minY) / 2) + dimensions.minY)
+    const relativeDistance = scaledDistance / distance
 
     this.distance = scaledDistance
+
+    this.dimensions.minX *= relativeDistance
+    this.dimensions.maxX *= relativeDistance
+    this.dimensions.minY *= relativeDistance
+    this.dimensions.maxY *= relativeDistance
+
+    this.offsets.x = (width / 2) - (((this.dimensions.maxX - this.dimensions.minX) / 2) + this.dimensions.minX)
+    this.offsets.y = (height / 2) - (((this.dimensions.maxY - this.dimensions.minY) / 2) + this.dimensions.minY)
 
     this.context.translate(this.offsets.x, 0)
     this.context.strokeStyle = 'rgb(0,0,0)'
@@ -158,6 +162,7 @@ export class LSystemFractal extends AbstractFractal {
       }
     }
 
+    // TODO: put this in `after` callback
     this.context.restore()
   }
 

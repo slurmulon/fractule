@@ -140,9 +140,10 @@ export class LSystemFractal extends AbstractFractal {
         this.context.lineWidth = Math.max(this.depth - this.stack.length, 1)
 
         this.context.beginPath()
-        this.context.moveTo(step.lastX, this.height - (step.lastY + this.offsets.y))
+        this.context.moveTo(step.last.x, this.height - (step.last.y + this.offsets.y))
         this.context.lineTo(this.cursor.x, this.height - (this.cursor.y + this.offsets.y))
-        //
+
+        // TODO: Should just call `renderUnit`
         this.context.closePath()
         this.context.stroke()
       }
@@ -156,7 +157,7 @@ export class LSystemFractal extends AbstractFractal {
     after  = () => {}
   } = {}) {
     const { commands, angle, distance, constants } = this
-    let radian, lastX, lastY
+    let radian, last
 
     this.cursor = new LSystemPosition({})
     this.stack = []
@@ -167,14 +168,13 @@ export class LSystemFractal extends AbstractFractal {
       if (action instanceof Function) {
         action(this).call(this)
       } else if (!constants.includes(command)) {
-        lastX = this.cursor.x
-        lastY = this.cursor.y
+        last = Object.assign({}, this.cursor)
         radian = this.cursor.heading * RADIAN
 
         this.cursor.x += distance * Math.cos(radian)
         this.cursor.y += distance * Math.sin(radian)
 
-        commit({ lastX, lastY, radian })
+        commit({ last, radian })
       }
     }
 

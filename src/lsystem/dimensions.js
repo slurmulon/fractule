@@ -14,4 +14,18 @@ export default class LSystemDimensions {
     this.max = max
   }
 
+  get deltas () {
+    return {
+      x: this.max.x - this.min.x,
+      y: this.max.y - this.min.y
+    }
+  }
+
+  scale (ratio) {
+    this.min.x *= ratio
+    this.max.x *= ratio
+    this.min.y *= ratio
+    this.max.y *= ratio
+  }
+
 }

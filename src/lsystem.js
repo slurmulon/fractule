@@ -126,16 +126,12 @@ export class LSystemFractal extends AbstractFractal {
   }
 
   // TODO: Move a lot of this into `translate` override
-  conform () {
+  reframe () {
     this.clear()
 
     const { dimensions, distance, canvas } = this
+    const { deltas } = dimensions
     const { height, width } = canvas
-
-    const deltas = {
-      x: dimensions.max.x - dimensions.min.x,
-      y: dimensions.max.y - dimensions.min.y
-    }
 
     const unit = (deltas.x > deltas.y) ?
       ((width  / deltas.x) * distance) :
@@ -143,14 +139,11 @@ export class LSystemFractal extends AbstractFractal {
 
     const ratio = unit / distance
 
-    this.distance = unit
-    this.dimensions.min.x *= ratio
-    this.dimensions.max.x *= ratio
-    this.dimensions.min.y *= ratio
-    this.dimensions.max.y *= ratio
+    this.dimensions.scale(ratio)
 
-    this.offsets.x = (width / 2)  - (((this.dimensions.max.x - this.dimensions.min.x) / 2) + this.dimensions.min.x)
-    this.offsets.y = (height / 2) - (((this.dimensions.max.y - this.dimensions.min.y) / 2) + this.dimensions.min.y)
+    this.distance  = unit
+    this.offsets.x = (width  / 2) - ((this.dimensions.deltas.x / 2) + this.dimensions.min.x)
+    this.offsets.y = (height / 2) - ((this.dimensions.deltas.y / 2) + this.dimensions.min.y)
 
     this.context.translate(this.offsets.x, 0)
     this.context.strokeStyle = 'rgb(0,0,0)'
@@ -177,7 +170,7 @@ export class LSystemFractal extends AbstractFractal {
       }
     })
 
-    this.conform()
+    this.reframe()
   }
 
   draw ({

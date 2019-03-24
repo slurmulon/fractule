@@ -25,7 +25,6 @@ export class LSystemFractal extends AbstractFractal {
 
     this.angle = angle
     this.distance = distance
-    // this.variables = variables
     this.constants = constants
     this.rules = rules
     this.axiom = axiom
@@ -42,13 +41,9 @@ export class LSystemFractal extends AbstractFractal {
         y: 0
       },
       max: {
-        x: this.canvas.width,
-        y: this.canvas.height
+        x: this.width,
+        y: this.height
       }
-      // min.x: 0,
-      // min.y: 0,
-      // max.x: this.canvas.width, //this.width,
-      // max.y: this.canvas.height //this.height
     })
   }
   //
@@ -70,7 +65,7 @@ export class LSystemFractal extends AbstractFractal {
         commands.push(rule != null ? rule : token)
 
         if (commands.length > ceiling) {
-          throw `Depth is too great and results in Way too many commands: ${commands.length}`
+          throw `Depth is excessive, its high complexity results in too many commands: ${commands.length}`
         }
       }
     }
@@ -206,12 +201,6 @@ export class LSystemFractal extends AbstractFractal {
   style (position) {
     return 'rgba(140, 80, 60, 0.75)'
   }
-
-  // -----
-
-  // renderUnit (depth, size, angle) {
-
-  // }
 
 }
 

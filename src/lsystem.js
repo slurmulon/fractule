@@ -129,9 +129,8 @@ export class LSystemFractal extends AbstractFractal {
   reframe () {
     this.clear()
 
-    const { dimensions, distance, canvas } = this
+    const { dimensions, distance, height, width } = this
     const { deltas } = dimensions
-    const { height, width } = canvas
 
     const unit = (deltas.x > deltas.y) ?
       ((width  / deltas.x) * distance) :

@@ -3,6 +3,7 @@ import LSystemDimensions from './lsystem/dimensions'
 import LSystemPosition from './lsystem/position'
 import TurtleGrammar from './lsystem/grammars/turtle'
 
+// TOOD: Integrate this more elegantly with AbstractFractal
 export class LSystemFractal extends AbstractFractal {
 
   constructor ({
@@ -10,8 +11,8 @@ export class LSystemFractal extends AbstractFractal {
     depth,
     angle = 120,
     distance = 10,
-    axiom = '', // null
-    // variables: [], // TODO: If we want to force all potential variables to be declared up-front
+    axiom = '',
+    // variables: '', // TODO: If we want to force all potential variables to be declared up-front
     constants = '',
     rules = {},
     iterations = 1,
@@ -38,10 +39,8 @@ export class LSystemFractal extends AbstractFractal {
     this.dimensions = new LSystemDimensions({
       minX: 0,
       minY: 0,
-      // maxX: this.width,
-      // maxY: this.height
-      maxX: this.canvas.width,
-      maxY: this.canvas.height
+      maxX: this.canvas.width, //this.width,
+      maxY: this.canvas.height //this.height
     })
   }
   //
@@ -63,7 +62,7 @@ export class LSystemFractal extends AbstractFractal {
         commands.push(rule != null ? rule : token)
 
         if (commands.length > ceiling) {
-          throw 'Way too many commands, bro'
+          throw `Depth is too great and results in Way too many commands: ${commands.length}`
         }
       }
     }
@@ -103,42 +102,57 @@ export class LSystemFractal extends AbstractFractal {
   }
 
   focus () {
-    this.process(undefined, undefined, step => {
-      if (this.cursor.x < this.dimensions.minX) {
-        this.dimensions.minX = this.cursor.x
-      } else if (this.cursor.x > this.dimensions.maxX) {
-        this.dimensions.maxX = this.cursor.x
-      }
+    this.process({
+      commit: step => {
+        if (this.cursor.x < this.dimensions.minX) {
+          this.dimensions.minX = this.cursor.x
+        } else if (this.cursor.x > this.dimensions.maxX) {
+          this.dimensions.maxX = this.cursor.x
+        }
 
-      if (this.cursor.y < this.dimensions.minY) {
-        this.dimensions.minY = this.cursor.y
-      } else if (this.cursor.y > this.dimensions.maxY) {
-        this.dimensions.maxY = this.cursor.y
-      }
+        if (this.cursor.y < this.dimensions.minY) {
+          this.dimensions.minY = this.cursor.y
+        } else if (this.cursor.y > this.dimensions.maxY) {
+          this.dimensions.maxY = this.cursor.y
+        }
 
-      if (this.stack.length > this.depth) {
-        this.depth = this.stack.length
+        if (this.stack.length > this.depth) {
+          this.depth = this.stack.length
+        }
       }
     })
 
     this.setup()
   }
 
-  draw (grammar = this.grammar, colors = this.colors) {
+  draw ({
+    grammar = this.grammar,
+    colors = this.colors
+  } = {}) {
     this.focus()
-    this.process(grammar, colors, step => {
-      this.context.lineWidth = Math.max(this.depth - this.stack.length, 1)
+    this.process({
+      grammar,
+      colors,
+      after: () => this.context.restore(),
+      commit: step => {
+        this.context.lineWidth = Math.max(this.depth - this.stack.length, 1)
 
-      this.context.beginPath()
-      this.context.moveTo(step.lastX, this.height - (step.lastY + this.offsets.y))
-      this.context.lineTo(this.cursor.x, this.height - (this.cursor.y + this.offsets.y))
-      //
-      this.context.closePath()
-      this.context.stroke()
+        this.context.beginPath()
+        this.context.moveTo(step.lastX, this.height - (step.lastY + this.offsets.y))
+        this.context.lineTo(this.cursor.x, this.height - (this.cursor.y + this.offsets.y))
+        //
+        this.context.closePath()
+        this.context.stroke()
+      }
     })
   }
 
-  process (grammar = this.grammar, colors = this.colors, commit = () => {}) {
+  process ({
+    grammar = this.grammar,
+    colors = this.colors,
+    commit = () => {},
+    after  = () => {}
+  } = {}) {
     const { commands, angle, distance, constants } = this
     let radian, lastX, lastY
 
@@ -162,15 +176,14 @@ export class LSystemFractal extends AbstractFractal {
       }
     }
 
-    // TODO: put this in `after` callback
-    this.context.restore()
+    if (after instanceof Function) after()
   }
 
   left () {
     this.cursor.heading += this.angle
   }
 
-  right (position) {
+  right () {
     this.cursor.heading -= this.angle
   }
 

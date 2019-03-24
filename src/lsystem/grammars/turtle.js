@@ -1,11 +1,11 @@
 // pg. 80 of Computational Beauty of Nature
 
 export default {
-  // 'F': sys => sys.forward, // AKA draw forward
-  // 'G': sys => sys.move, // AKA move forward
-  '+': sys => sys.left,
-  '-': sys => sys.right,
-  '[': sys => sys.push,
-  ']': sys => sys.pop,
-  'C': sys => sys.style
+  // 'F': lsys => lsys.forward, // AKA draw forward
+  // 'G': lsys => lsys.move, // AKA move forward
+  '+': lsys => lsys.left,
+  '-': lsys => lsys.right,
+  '[': lsys => lsys.push,
+  ']': lsys => lsys.pop,
+  'C': lsys => lsys.style
 }

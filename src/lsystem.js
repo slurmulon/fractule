@@ -15,7 +15,7 @@ export class LSystemFractal extends AbstractFractal {
     // variables: '', // TODO: If we want to force all potential variables to be declared up-front
     constants = '',
     rules = {},
-    iterations = 1,
+    iterations = 1, // TODO: Rename to `depth` (same thing, really)
     grammar = TurtleGrammar,
     offsets = { x: 0, y: 0 },
     colors = [],
@@ -129,24 +129,25 @@ export class LSystemFractal extends AbstractFractal {
   conform () {
     this.clear()
 
-    const { dimensions, distance } = this
-    const { height, width } = this.canvas
+    const { dimensions, distance, canvas } = this
+    const { height, width } = canvas
 
-    let scaledDistance
-
-    if (dimensions.max.x - dimensions.min.x > dimensions.max.y - dimensions.min.y) {
-      scaledDistance = (width  / (dimensions.max.x - dimensions.min.x)) * distance
-    } else {
-      scaledDistance = (height / (dimensions.max.y - dimensions.min.y)) * distance
+    const deltas = {
+      x: dimensions.max.x - dimensions.min.x,
+      y: dimensions.max.y - dimensions.min.y
     }
 
-    const relativeDistance = scaledDistance / distance
+    const unit = (deltas.x > deltas.y) ?
+      ((width  / deltas.x) * distance) :
+      ((height / deltas.y) * distance)
 
-    this.distance = scaledDistance
-    this.dimensions.min.x *= relativeDistance
-    this.dimensions.max.x *= relativeDistance
-    this.dimensions.min.y *= relativeDistance
-    this.dimensions.max.y *= relativeDistance
+    const ratio = unit / distance
+
+    this.distance = unit
+    this.dimensions.min.x *= ratio
+    this.dimensions.max.x *= ratio
+    this.dimensions.min.y *= ratio
+    this.dimensions.max.y *= ratio
 
     this.offsets.x = (width / 2)  - (((this.dimensions.max.x - this.dimensions.min.x) / 2) + this.dimensions.min.x)
     this.offsets.y = (height / 2) - (((this.dimensions.max.y - this.dimensions.min.y) / 2) + this.dimensions.min.y)

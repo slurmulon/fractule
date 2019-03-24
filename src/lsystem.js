@@ -1,4 +1,6 @@
 import { AbstractFractal } from './abstract'
+import LSystemDimensions from './lsystem/dimensions'
+import LSystemPosition from './lsystem/position'
 import TurtleGrammar from './lsystem/grammars/turtle'
 
 export class LSystemFractal extends AbstractFractal {
@@ -66,10 +68,6 @@ export class LSystemFractal extends AbstractFractal {
 
     return commands.join('')
   }
-
-  // process (drawv) {
-
-  // }
 
   // TODO: Move a lot of this into `translate` override
   setup () {
@@ -188,40 +186,6 @@ export class LSystemFractal extends AbstractFractal {
   // renderUnit (depth, size, angle) {
 
   // }
-
-}
-
-// TODO: Move to src/lsystem/position.js
-export class LSystemPosition {
-
-  constructor ({
-    x = 0,
-    y = 0,
-    heading = 90,
-    color = -1
-  }) {
-    this.x = x
-    this.y = y
-    this.heading = heading
-    this.color = color
-  }
-
-}
-
-// TODO: Move to src/lsystem/dimensions.js
-export class LSystemDimensions {
-
-  constructor ({
-    minX = 0,
-    minY = 0,
-    maxX = 0, // window.innerWidth
-    maxY = 0 // window.innerHeight
-  }) {
-    this.minX = minX
-    this.minY = minY
-    this.maxX = maxX
-    this.maxY = maxY
-  }
 
 }
 

@@ -126,7 +126,7 @@ import { BifurcationFractal } from 'fractule'
 const bifur = new BifurcationFractal({
   min: {
     x: 2,
-    Y: 0
+    y: 0
   },
   max: {
     x: 4,

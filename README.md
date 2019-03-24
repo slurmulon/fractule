@@ -130,7 +130,9 @@ bifur.draw()
 
 ![Bifurcation Fractal Example](./assets/bifurcation.png)
 
-### L-System
+### L-Systems
+
+#### Sierpinski triangle (curved)
 
 ```js
 import { LSystemFractal } from 'fractule'
@@ -149,6 +151,25 @@ lsystem.draw()
 ```
 
 ![L-System Fractal Example](./assets/lsystem-1.png)
+
+#### Pleasant Error
+
+```js
+import { LSystemFractal } from 'fractule'
+
+const lsystem = new LSystemFractal({
+  iterations: 4,
+  angle: 72,
+  axiom: 'F-F-F-F-F',
+  rules: {
+    'F': 'F-F++F+F-F-F'
+  }
+})
+
+lsystem.draw()
+```
+
+![L-System Fractal Example](./assets/lsystem-2.png)
 
 ## Contributing
 
